@@ -35,7 +35,7 @@ const Landing = () => {
 
   return (
     <>
-      <h1 className="text-center text-3xl">Discord APP</h1>
+      <h1 className=" text-purple-500">Discord Verification APP</h1>
     </>
   );
 };
