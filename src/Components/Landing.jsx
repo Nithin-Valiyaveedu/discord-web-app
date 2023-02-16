@@ -1,41 +1,45 @@
 import React, { useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
+
 import { handleConnect } from "../Controller/connectWallet";
+import setupApi from "../Api/auth";
+import { popup } from "../Utils/popup";
 
 const Landing = () => {
-  
+  const [params, setParams] = useSearchParams();
+  const userId = params.getAll("userId").toString();
+
   useEffect(() => {
-    handleLoginWithWallet();
-  }, []);
+    if (userId) handleLoginWithWallet();
+  }, [userId]);
 
   const handleLoginWithWallet = async () => {
     const resp = await handleConnect();
     console.log(resp);
+    let payload = {
+      userId,
+      walletAddress: resp,
+    };
 
-    // const result = resp?.[0];
-    // if (result?.data?.success) {
-    //   const userToken = result?.data?.data?.token;
-    //   localStorage.setItem("userToken", userToken);
-    //   localStorage.setItem("loginType", "Wallet");
-    //   localStorage.setItem("walletConnected", "true");
-    //   localStorage.setItem("walletAddress", resp[1]);
-    //   dispatch(setAccount({ loggedIn: true, loginType: "Wallet" }));
-    //   dispatch(
-    //     setWalletDetails({
-    //       walletConnected: true,
-    //       walletAddress: resp[1],
-    //       balance: resp[2],
-    //     })
-    //   );
-    //   popup("Success", "Connection Successful", "success");
-    //   navigate("/citizen");
-    // } else {
-    //   setClickLoader(false);
-    // }
+    console.log(payload);
+    try {
+      // setLoading(true);
+      const response = await setupApi.userSetup(payload);
+      console.log(response);
+      popup("Success", "User Created Successfully", "success").then((res) => {
+        setParams({});
+      });
+    } catch (err) {
+      console.log(err.response.data.message);
+      popup("Error", err.response.data.message, "error");
+    } finally {
+      // setLoading(false);
+    }
   };
 
   return (
     <>
-      <h1 className=" text-purple-500">Discord Verification APP</h1>
+      <h1 className="text-center">Discord Chatbot</h1>
     </>
   );
 };
