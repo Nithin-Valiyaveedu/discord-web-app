@@ -2,7 +2,7 @@ import React from "react";
 
 import { Routes, Route } from "react-router-dom";
 import Landing from "./Components/Landing";
-
+import Success from "./Components/Success";
 
 const Layout = () => {
   return (
@@ -14,11 +14,11 @@ const Layout = () => {
           exact
           element={<Landing />}
         />
-        {/* <Route
-          path="*"
+        <Route
+          path="/success"
           exact
-          element={<Notfound />}
-        /> */}
+          element={<Success />}
+        />
       </Routes>
     </>
   );
