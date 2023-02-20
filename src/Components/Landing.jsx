@@ -8,7 +8,7 @@ const supabase = createClient(
 
 const Landing = () => {
   const loginWithDiscord = async () => {
-    const response = await supabase.auth.signInWithOAuth({
+    await supabase.auth.signInWithOAuth({
       provider: "discord",
       options: {
         redirectTo: "https://discord-web-app.onrender.com/success",

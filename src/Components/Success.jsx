@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { createClient } from "@supabase/supabase-js";
 
 import { handleConnect } from "../Controller/connectWallet";
@@ -53,7 +53,7 @@ const Success = () => {
 
     if (localStorage.getItem("loginSuccess") === "true") {
       setLoader(false);
-      return
+      return;
     } else getCurrentUser();
   }, []);
 
