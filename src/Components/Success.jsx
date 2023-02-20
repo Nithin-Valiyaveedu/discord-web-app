@@ -12,7 +12,7 @@ const supabase = createClient(
 );
 
 const Success = () => {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState("");
   const navigate = useNavigate();
   const [loader, setLoader] = useState(true);
 
@@ -25,9 +25,9 @@ const Success = () => {
     };
     console.log(payload);
     try {
-      // setLoading(true);
-      const response = await setupApi.userSetup(payload);
+      await setupApi.userSetup(payload);
       popup("Success", "User Created Successfully", "success");
+      localStorage.setItem("loginSuccess", "true");
     } catch (err) {
       console.log(err.response.data.message);
       popup("Error", err.response.data.message, "error");
@@ -36,41 +36,53 @@ const Success = () => {
     }
   };
 
+  //get discord user
+
   useEffect(() => {
     async function getCurrentUser() {
       await supabase.auth.getUser().then((value) => {
+        console.log(value);
         if (value.data?.user) {
           console.log(value.data?.user);
           setUser(value.data?.user);
-          handleLoginWithWallet(value.data?.user.id);
+          handleLoginWithWallet();
+          setLoader(false);
         }
-        setLoader(false);
       });
     }
-    async function getSession() {
-      const { data, error } = await supabase.auth.getSession();
-      console.log(data);
-    }
 
-    getCurrentUser();
-    getSession();
+    if (localStorage.getItem("loginSuccess") === "true") {
+      setLoader(false);
+      return
+    } else getCurrentUser();
   }, []);
 
   async function signOutUser() {
-    const { error } = await supabase.auth.signOut();
+    await supabase.auth.signOut();
     navigate("/");
+    localStorage.removeItem("loginSuccess");
   }
+
   return (
     <>
-      {Object.keys(user).length !== 0 ? (
+      {loader ? (
+        <h1>Loading</h1>
+      ) : user ? (
         <>
           <h1>Successfully Logged In</h1>
           <button onClick={signOutUser}>SINGOUT</button>
         </>
-      ) : !loader ? (
-        <h1>User Not logged in</h1>
       ) : (
-        <h1>Loading</h1>
+        <>
+          <h1>User Not logged in</h1>
+          <button
+            onClick={() => {
+              localStorage.removeItem("loginSuccess");
+              navigate("/");
+            }}>
+            Go to home
+          </button>
+        </>
       )}
     </>
   );
