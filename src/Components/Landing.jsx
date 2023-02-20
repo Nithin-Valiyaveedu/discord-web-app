@@ -1,45 +1,25 @@
-import React, { useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import React from "react";
+import { createClient } from "@supabase/supabase-js";
 
-import { handleConnect } from "../Controller/connectWallet";
-import setupApi from "../Api/auth";
-import { popup } from "../Utils/popup";
+const supabase = createClient(
+  "https://dauawcdclgotidietdhl.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRhdWF3Y2RjbGdvdGlkaWV0ZGhsIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzY3ODY0MDAsImV4cCI6MTk5MjM2MjQwMH0.P-7cX1eAP4H8UUAPpsQAAQMspiHBQJ6XipZsNsCI6EY"
+);
 
 const Landing = () => {
-  const [params, setParams] = useSearchParams();
-  const userId = params.getAll("userId").toString();
-
-  useEffect(() => {
-    if (userId) handleLoginWithWallet();
-  }, [userId]);
-
-  const handleLoginWithWallet = async () => {
-    const resp = await handleConnect();
-    console.log(resp);
-    let payload = {
-      userId,
-      walletAddress: resp,
-    };
-
-    console.log(payload);
-    try {
-      // setLoading(true);
-      const response = await setupApi.userSetup(payload);
-      console.log(response);
-      popup("Success", "User Created Successfully", "success").then((res) => {
-        setParams({});
-      });
-    } catch (err) {
-      console.log(err.response.data.message);
-      popup("Error", err.response.data.message, "error");
-    } finally {
-      // setLoading(false);
-    }
+  const loginWithDiscord = async () => {
+    const response = await supabase.auth.signInWithOAuth({
+      provider: "discord",
+      options: {
+        redirectTo: "http://localhost:3000/success",
+      },
+    });
   };
 
   return (
     <>
       <h1 className="text-center">Discord Chatbot</h1>
+      <button onClick={loginWithDiscord}>Login With Discord</button>
     </>
   );
 };
