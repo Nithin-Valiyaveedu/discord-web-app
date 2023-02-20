@@ -11,7 +11,7 @@ const Landing = () => {
     await supabase.auth.signInWithOAuth({
       provider: "discord",
       options: {
-        redirectTo: "https://discord-web-app.onrender.com/success",
+        redirectTo: "https://sweet-gingersnap-8ef6a9.netlify.app/success",
       },
     });
   };
