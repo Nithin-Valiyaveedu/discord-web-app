@@ -23,7 +23,7 @@ const Success = () => {
     };
     const resp = await handleConnect();
     let payload = {
-      userId: data.user_metadata.id,
+      userId: data.user_metadata.provider_id,
       walletAddress: resp,
     };
     console.log(createUserPayload);
