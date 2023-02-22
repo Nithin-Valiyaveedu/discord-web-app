@@ -18,12 +18,12 @@ const Success = () => {
 
   const handleLoginWithWallet = async (data) => {
     let createUserPayload = {
-      userId: data.identities.id,
+      userId: data.user_metadata.provider_id,
       userName: data.user_metadata.full_name,
     };
     const resp = await handleConnect();
     let payload = {
-      userId: data.identities.id,
+      userId: data.user_metadata.id,
       walletAddress: resp,
     };
     console.log(createUserPayload);
