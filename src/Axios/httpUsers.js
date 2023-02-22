@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const appUrl = "http://concierge.nextp.in:8080/api";
+const appUrl = "https://concierge.nextp.in/api";
 
 const http = axios.create({
   baseURL: appUrl,
