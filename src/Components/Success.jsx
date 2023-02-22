@@ -17,15 +17,16 @@ const Success = () => {
   const [loader, setLoader] = useState(true);
 
   const handleLoginWithWallet = async (data) => {
+    let createUserPayload = {
+      userId: data.id,
+      userName: data.user_metadata.full_name,
+    };
     const resp = await handleConnect();
     let payload = {
       userId: data.id,
       walletAddress: resp,
     };
-    let createUserPayload = {
-      userId: data.id,
-      userName: data.name,
-    };
+    console.log(createUserPayload);
     try {
       await setupApi.userCreate(createUserPayload);
       await setupApi.userSetup(payload);
