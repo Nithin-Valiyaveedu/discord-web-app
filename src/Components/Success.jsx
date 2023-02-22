@@ -16,15 +16,18 @@ const Success = () => {
   const navigate = useNavigate();
   const [loader, setLoader] = useState(true);
 
-  const handleLoginWithWallet = async (id) => {
+  const handleLoginWithWallet = async (data) => {
     const resp = await handleConnect();
-    console.log(resp);
     let payload = {
-      userId: id,
+      userId: data.id,
       walletAddress: resp,
     };
-    console.log(payload);
+    let createUserPayload = {
+      userId: data.id,
+      userName: data.name,
+    };
     try {
+      await setupApi.userCreate(createUserPayload);
       await setupApi.userSetup(payload);
       popup("Success", "User Created Successfully", "success");
       localStorage.setItem("loginSuccess", "true");
@@ -45,7 +48,7 @@ const Success = () => {
         if (value.data?.user) {
           console.log(value.data?.user.id);
           setUser(value.data?.user);
-          handleLoginWithWallet(value.data?.user.id);
+          handleLoginWithWallet(value.data?.user);
           setLoader(false);
         }
       });
