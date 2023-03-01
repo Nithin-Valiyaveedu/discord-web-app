@@ -11,16 +11,20 @@ const Landing = () => {
     await supabase.auth.signInWithOAuth({
       provider: "discord",
       options: {
-        redirectTo: "https://sweet-gingersnap-8ef6a9.netlify.app/success",
+        redirectTo: "http://localhost:3000/success",
       },
     });
   };
 
   return (
-    <>
-      <h1 className="text-center">Discord Chatbot</h1>
-      <button onClick={loginWithDiscord}>Login With Discord</button>
-    </>
+    <div className="landingContainer">
+      <h1 className="">Discord Chatbot</h1>
+      <button
+        className="btn btn-position"
+        onClick={loginWithDiscord}>
+        Login With Discord
+      </button>
+    </div>
   );
 };
 

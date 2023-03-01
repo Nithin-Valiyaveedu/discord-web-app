@@ -26,17 +26,42 @@ const Success = () => {
       userId: data.user_metadata.provider_id,
       walletAddress: resp,
     };
+
     try {
-      await setupApi.userCreate(createUserPayload);
-      await setupApi.userSetup(payload);
-      popup("Success", "User Created Successfully", "success");
+      await setupApi.checkUser(payload.userId);
+      popup("Success", "User Logged in Successfully", "success");
       localStorage.setItem("loginSuccess", "true");
-    } catch (err) {
-      console.log(err.response.data.message);
-      popup("Error", err.response.data.message, "error");
-    } finally {
-      // setLoading(false);
+    } catch (error) {
+      console.log(error.response.status);
+      if (error.response.status === 404) {
+        try {
+          await setupApi.userCreate(createUserPayload);
+          await setupApi.userSetup(payload);
+          popup("Success", "User Created Successfully", "success");
+          localStorage.setItem("loginSuccess", "true");
+        } catch (err) {
+          console.log(err.response.data.message);
+          popup("Error", err.response.data.message, "error");
+        } finally {
+          setLoader(false);
+        }
+      } else {
+        popup("Error", "Something Went Wrong", "error");
+      }
     }
+    // try {
+    //   // if()
+    //   // await setupApi.userCreate(createUserPayload);
+    //   // await setupApi.userSetup(payload);
+    //   // popup("Success", "User Created Successfully", "success");
+    //   // localStorage.setItem("loginSuccess", "true");
+    // } catch (err) {
+    //   console.log(err);
+    //   // console.log(err.response.data.message);
+    //   // popup("Error", err.response.data.message, "error");
+    // } finally {
+    //   // setLoading(false);
+    // }
   };
 
   //get discord user
@@ -48,6 +73,7 @@ const Success = () => {
         if (value.data?.user) {
           console.log(value.data?.user.id);
           setUser(value.data?.user);
+          localStorage.setItem("userData", value.data?.user);
           handleLoginWithWallet(value.data?.user);
           setLoader(false);
         }
@@ -65,16 +91,21 @@ const Success = () => {
     navigate("/");
     localStorage.removeItem("loginSuccess");
   }
+  // console.log(user);
 
   return (
     <>
       {loader ? (
         <h1>Loading</h1>
-      ) : user ? (
-        <>
+      ) : user || localStorage.getItem("loginSuccess") ? (
+        <div className="signoutContainer">
           <h1>Successfully Logged In</h1>
-          <button onClick={signOutUser}>SINGOUT</button>
-        </>
+          <button
+            className="btn btn-position"
+            onClick={signOutUser}>
+            SINGOUT
+          </button>
+        </div>
       ) : (
         <>
           <h1>User Not logged in</h1>
