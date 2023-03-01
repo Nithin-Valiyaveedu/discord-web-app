@@ -49,19 +49,6 @@ const Success = () => {
         popup("Error", "Something Went Wrong", "error");
       }
     }
-    // try {
-    //   // if()
-    //   // await setupApi.userCreate(createUserPayload);
-    //   // await setupApi.userSetup(payload);
-    //   // popup("Success", "User Created Successfully", "success");
-    //   // localStorage.setItem("loginSuccess", "true");
-    // } catch (err) {
-    //   console.log(err);
-    //   // console.log(err.response.data.message);
-    //   // popup("Error", err.response.data.message, "error");
-    // } finally {
-    //   // setLoading(false);
-    // }
   };
 
   //get discord user
