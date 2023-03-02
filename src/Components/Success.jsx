@@ -56,7 +56,6 @@ const Success = () => {
   useEffect(() => {
     async function getCurrentUser() {
       await supabase.auth.getUser().then((value) => {
-        console.log(value);
         if (value.data?.user) {
           console.log(value.data?.user.id);
           setUser(value.data?.user);

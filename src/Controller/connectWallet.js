@@ -33,6 +33,16 @@ export const handleConnect = async () => {
 
   const web3 = new Web3(provider);
   const account = await web3.eth.getAccounts();
+  try {
+    let signature = await web3.eth.personal.sign(
+      "Welcome to Concierge 2.0",
+      account[0],
+      ""
+    );
+    console.log(signature);
+  } catch (err) {
+    console.log(err);
+  }
   return account;
   // let balance = await web3.eth.getBalance(account[0]);
   // balance = web3.utils.fromWei(balance, "ether");
