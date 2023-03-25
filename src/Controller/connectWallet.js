@@ -44,8 +44,5 @@ export const handleConnect = async () => {
     console.log(err);
   }
   return account;
-  // let balance = await web3.eth.getBalance(account[0]);
-  // balance = web3.utils.fromWei(balance, "ether");
-  // console.log(balance);
 }
 
