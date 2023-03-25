@@ -11,7 +11,7 @@ const Landing = () => {
     await supabase.auth.signInWithOAuth({
       provider: "discord",
       options: {
-        redirectTo: "https://discord-web-app.onrender.com/success",
+        redirectTo: "http://localhost:3000/success",
       },
     });
   };
