@@ -1,11 +1,11 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import React, { useState } from "react";
+import { Routes, Route } from "react-router-dom";
 
 import UserContext from "./Context/User/user.context";
 
-import Header from './Components/Header';
-import Landing from './Components/Landing';
-import Success from './Components/Success';
+import Header from "./Components/Header";
+import Landing from "./Components/Landing";
+import Success from "./Components/Success";
 
 const Layout = () => {
   const currentUser = window.localStorage.getItem("userData");

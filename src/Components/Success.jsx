@@ -77,10 +77,9 @@ const Success = ({ setUser }) => {
     await supabase.auth.signOut();
     navigate("/");
     localStorage.removeItem("loginSuccess");
+    localStorage.removeItem("userData");
+    setUser("");
   }
-
-  console.log(user);
-  // console.log(user.user_metadata.name);
 
   return (
     <>

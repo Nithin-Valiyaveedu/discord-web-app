@@ -1,18 +1,25 @@
-import React from 'react';
+import React, { useContext } from "react";
+
+import UserContext from "../Context/User/user.context";
 
 const Header = () => {
+  const user = useContext(UserContext);
+  const { user_metadata } = user;
   return (
     <div className="navbar">
       <div className="navbarContainer">
         <h1>Coencierge 2.0</h1>
-        <div className="profileHead">
-          <h1>N</h1>
-          {/* <img
-            src="https://images.unsplash.com/photo-1617854818583-09e7f077a156?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80"
-            className="profileHead"
-            alt=""
-          ></img> */}
-        </div>
+        {user ? (
+          <div className="profileHead">
+            <img
+              src={user_metadata.avatar_url}
+              className="profileHead"
+              alt=""
+            />
+          </div>
+        ) : (
+          "User Not logged in"
+        )}
       </div>
     </div>
   );
